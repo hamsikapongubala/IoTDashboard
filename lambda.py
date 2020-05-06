@@ -129,12 +129,15 @@ def lambda_handler(event, context):
             [ "AWS/Lambda", "Invocations", "FunctionName", "CMPE181LambdaPython1" ]
         ]
     }
-    
 
+     bucket_name = 'finalprj' # for temporary public file
+    filename = 'tmp/cloudwatch_metric_chart.png'
+    # Get MetricWidgetImage from CloudWatch Metrics
     response = cloudwatch.get_metric_widget_image(MetricWidget=json.dumps(json_response))
-    
-    with open ('chart.png', 'w') as f:
-       f.write(response["MetricWidgetImage"])
+    data = response['MetricWidgetImage']
+    # Create temporary public file on S3
+    boto3.client('s3').put_object(ACL='public-read', Body=data,
+                                  Bucket=bucket_name, Key=filename)
     
     return {
         'statusCode': 200,
