@@ -74,12 +74,12 @@ def lambda_handler(event, context):
     )
 
     # Send to SNS
-    response = client.publish(
-        TopicArn='arn:aws:sns:us-east-1:576305613970:mytestsns1',
-        Message='Temperature is too high',
-        Subject='Temperature Alert',
-        MessageStructure='string'
-    )
+    #response = client.publish(
+    #    TopicArn='arn:aws:sns:us-east-1:576305613970:mytestsns1',
+    #    Message='Temperature is too high',
+    #    Subject='Temperature Alert',
+    #    MessageStructure='string'
+    #)
 
     # IoT control (optional)
     response = iotclient.describe_endpoint(
@@ -98,27 +98,36 @@ def lambda_handler(event, context):
         payload=messageJson  # b'0101'
     )
     
+    
+    #Create Cloudwatch Metric
+    val = item['temperature']
     response = cloudwatch.put_metric_data(
-    MetricData = [
-        {
-            'MetricName': 'KPIs',
-            'Dimensions': [
-                {
-                    'Name': 'DEVICES TEMP',
-                    'Value': 'Temperature'
+        Namespace='Device App',
+        MetricData = [
+            {
+                'MetricName': 'Device Temperature',
+                'Dimensions': [
+                    {
+                        'Name': 'Device Temperature',
+                        'Value': 'Temperature'
+                    },
+                ],
+                'StatisticValues': {
+                    'SampleCount': 1,
+                    'Sum': int(val)
+                    'Minimum': 50,
+                    'Maximum': 125.0
                 },
-                {
-                    'Name': 'APP_VERSION',
-                    'Value': '1.0'
-                },
-            ],
-            'Unit': 'None',
-            'Value': random.randint(1, 500)
-        },
-    ],
-    Namespace='CoolApp'
+                'Values': [
+                    int(val)
+                ],
+                
+                'Unit': 'Count/Second',
+                'StorageResolution': 60
+            },
+        ]
+    
     )
-
     print(response)
     
     json_response = {
@@ -130,14 +139,10 @@ def lambda_handler(event, context):
         ]
     }
 
-     bucket_name = 'finalprj' # for temporary public file
-    filename = 'tmp/cloudwatch_metric_chart.png'
+
     # Get MetricWidgetImage from CloudWatch Metrics
     response = cloudwatch.get_metric_widget_image(MetricWidget=json.dumps(json_response))
     data = response['MetricWidgetImage']
-    # Create temporary public file on S3
-    boto3.client('s3').put_object(ACL='public-read', Body=data,
-                                  Bucket=bucket_name, Key=filename)
     
     return {
         'statusCode': 200,
