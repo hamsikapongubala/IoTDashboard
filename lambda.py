@@ -114,7 +114,7 @@ def lambda_handler(event, context):
                 ],
                 'StatisticValues': {
                     'SampleCount': 1,
-                    'Sum': int(val)
+                    'Sum': int(val),
                     'Minimum': 50,
                     'Maximum': 125.0
                 },
@@ -133,12 +133,11 @@ def lambda_handler(event, context):
     json_response = {
         "view": "timeSeries",
         "stacked": False,
-        "region": "us-east-1",
         "metrics": [
-            [ "AWS/Lambda", "Invocations", "FunctionName", "CMPE181LambdaPython1" ]
-        ]
+            [ "Device App", "Device Temperature", "Device Temperature", "Temperature" ]
+        ],
+        "region": "us-east-1"
     }
-
 
     # Get MetricWidgetImage from CloudWatch Metrics
     response = cloudwatch.get_metric_widget_image(MetricWidget=json.dumps(json_response))
