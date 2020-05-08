@@ -2,8 +2,6 @@ import json
 import boto3
 import random
 
-
-
 cloudwatch = boto3.client('cloudwatch')
 print('Loading function')
 
@@ -98,9 +96,8 @@ def lambda_handler(event, context):
         payload=messageJson  # b'0101'
     )
     
-    
     #Create Cloudwatch Metric
-    val = item['temperature']
+    val = item['temperature'] #simulated temperature from dynamoDB
     response = cloudwatch.put_metric_data(
         Namespace='Device App',
         MetricData = [
@@ -128,6 +125,7 @@ def lambda_handler(event, context):
         ]
     
     )
+
     print(response)
     
     json_response = {
@@ -139,9 +137,14 @@ def lambda_handler(event, context):
         "region": "us-east-1"
     }
 
+    #bucket_name = 'finalprj' # for temporary public file
+    #filename = 'tmp/cloudwatch_metric_chart.png'
     # Get MetricWidgetImage from CloudWatch Metrics
     response = cloudwatch.get_metric_widget_image(MetricWidget=json.dumps(json_response))
     data = response['MetricWidgetImage']
+    # Create temporary public file on S3
+    #boto3.client('s3').put_object(ACL='public-read', Body=data,
+                                  #Bucket=bucket_name, Key=filename)
     
     return {
         'statusCode': 200,
@@ -150,5 +153,3 @@ def lambda_handler(event, context):
         'headers': {}
 
     }
-
-
