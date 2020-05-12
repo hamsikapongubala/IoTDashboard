@@ -34,14 +34,14 @@ def lambda_handler(event, context):
     # Print out some data about the table.
     print(table.creation_date_time)
 
-    # You can delete the item using DynamoDB.Table.delete_item():
+    # Delete the item using DynamoDB.Table.delete_item():
     table.delete_item(
         Key={
             'deviceID': event['deviceID']
         }
     )
 
-    # Once you have a DynamoDB.Table resource you can add new items to the table using DynamoDB.Table.put_item():
+    # Add new items to the table using DynamoDB.Table.put_item():
     table.put_item(
         Item={
             'deviceID': event['deviceID'],
@@ -59,7 +59,7 @@ def lambda_handler(event, context):
     item = response['Item']
     print(item['temperature'])
 
-    # You can then update attributes of the item in the table:
+    #Update attributes of the item in the table:
     newtemp = int((int(item['temperature']) - 32) * 5 / 9)  # Fahrenheit to Celsius
     table.update_item(
         Key={
@@ -71,15 +71,7 @@ def lambda_handler(event, context):
         }
     )
 
-    # Send to SNS
-    #response = client.publish(
-    #    TopicArn='arn:aws:sns:us-east-1:576305613970:mytestsns1',
-    #    Message='Temperature is too high',
-    #    Subject='Temperature Alert',
-    #    MessageStructure='string'
-    #)
-
-    # IoT control (optional)
+    # IoT control
     response = iotclient.describe_endpoint(
         endpointType='iot:Data-ATS'
     )
