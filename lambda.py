@@ -137,14 +137,16 @@ def lambda_handler(event, context):
         "region": "us-east-1"
     }
 
-    #bucket_name = 'finalprj' # for temporary public file
-    #filename = 'tmp/cloudwatch_metric_chart.png'
+  
     # Get MetricWidgetImage from CloudWatch Metrics
     response = cloudwatch.get_metric_widget_image(MetricWidget=json.dumps(json_response))
     data = response['MetricWidgetImage']
+    
+    bucket_name = 'finalproject181' # for temporary public file
+    filename = 'cloudwatch_metric_chart.png'
     # Create temporary public file on S3
-    #boto3.client('s3').put_object(ACL='public-read', Body=data,
-                                  #Bucket=bucket_name, Key=filename)
+    boto3.client('s3').put_object(ACL='public-read', Body=data,
+                                  Bucket=bucket_name, Key=filename)
     
     return {
         'statusCode': 200,
