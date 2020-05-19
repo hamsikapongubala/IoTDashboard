@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const https = require('https');
 const request = require('request');
 var fs = require('fs');
-let url = "";
+let url = "https://qa9y7jmzc0.execute-api.us-east-1.amazonaws.com/prod/get-from-s3";
 
 let settings = { method: "Get" };
 function saveImage(filename, data){
@@ -29,7 +29,9 @@ request(url, options, (error, res, body) => {
     var jsonContent = JSON.parse(JSON.stringify(body));
     var data = jsonContent.Body.data;
     console.log(data);
-    saveImage('doodle.png',data);
+    saveImage('./data/doodle.png',data);
+    saveImage('../iotdash/src/data/doodle.png',data);
+
     if (error) {
         return  console.log(error)
     };
