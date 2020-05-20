@@ -11,3 +11,13 @@ A GET REST call through the API Gateway gets the image saved in the S3 bucket. A
 
 ## Node and React
 A simple node.js app was made to render the json response call to a .png image. 
+
+## Running the App
+After downloading the necessary dependencies, first retrieve the data from Amazon S3 by running:
+'''
+npm run data
+'''
+Next, run the react by running:
+'''
+npm start
+'''
