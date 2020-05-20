@@ -21,13 +21,13 @@ cloudwatch = boto3.client('cloudwatch')
 
 
 def lambda_handler(event, context):
-    # TODO implement
+    
     print("Received event: " + json.dumps(event, indent=2))
     print("deviceID = " + event['deviceID'])
     print("batteryVoltage = " + event['batteryVoltage'])
     print("temperature = " + event['temperature'])
 
-    # Instantiate a table resource object without actuallyccreating a DynamoDB table.
+    # Instantiate a table resource object without actually creating a DynamoDB table.
     # Note that the attributes of this table are lazy-loaded: a request is not made nor are the attribute
     table = dynamodb.Table('CMPE181testmulti1')
 
