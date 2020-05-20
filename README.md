@@ -13,7 +13,7 @@ A GET REST call through the API Gateway gets the image saved in the S3 bucket. A
 A simple node.js app was made to render the json response call to a .png image. React was used to construct the web-app.
 
 ## Running the App
-After downloading the necessary dependencies, first retrieve the data from Amazon S3 by running:
+After downloading the necessary dependencies, navigate into the web directory to access the web-app. Then, retrieve the data from Amazon S3 by running:
 ```
 npm run data
 ```
@@ -21,3 +21,4 @@ Next, run the react by running:
 ```
 npm start
 ```
+In the app, click on "graph" and the data from S3 will be displayed.
