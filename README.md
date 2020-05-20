@@ -9,8 +9,8 @@ Cloudwatch logs were used to create a new metric to display the temperatures sav
 ## Amazon API Gateway
 A GET REST call through the API Gateway gets the image saved in the S3 bucket. A Lambda function is created to generate the script for retrieving the image. 
 
-## Node and React
-A simple node.js app was made to render the json response call to a .png image. React was used to construct the web-app.
+## React
+A React app was made to render the json response call to a .png image. An live graph of the cloud watch metric will be displayed on the webpage.
 
 ## Running the App
 After downloading the necessary dependencies, navigate into the web directory to access the web-app. Then, retrieve the data from Amazon S3 by running:
