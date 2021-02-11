@@ -13,7 +13,7 @@
     "file-system": "^2.2.2",
     "json-library": "^2.0.4",
     "json-loader": "^0.5.7",
-    "node-fetch": "^2.6.0",
+    "node-fetch": ">=2.6.1",
     "react-http-request": "^2.0.0",
     "request": "^2.88.2",
     "url": "^0.11.0"
